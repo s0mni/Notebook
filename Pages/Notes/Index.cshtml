@@ -1,0 +1,62 @@
+﻿@page
+@model Notebook.Pages.Notes.IndexModel
+@{
+}
+
+<div class="container row">
+    <div class="col-10">
+        <h2>Notes</h2>
+    </div>
+    <div class="col-2">
+        <a asp-page="Create" class="btn btn-outline-primary">Create note</a>
+    </div>
+
+    <div class="col-12 p-2 mt-2">
+        <div class="mb-4">
+            <form>
+                <input type="hidden" asp-for="Category.Id" />
+                <p>
+                    Filter: <select asp-for="SelectedCategory" asp-items="Model.Categories">
+                        <option value="">All Categories</option>
+                    </select>
+                    Search: <input type="text" asp-for="SearchInputTitle" />
+                    <input type="submit" value="Search" />
+                </p>
+            </form>
+        </div>
+        <form method="post">
+            @if (Model.Notes.Count > 0)
+            {
+                <div class="card-columns">
+                    
+                    @foreach (var note in Model.Notes)
+                    {
+                        <div class="card">
+                            <div class="card-body well-lg border-0">
+                                <div class="row row-cols-3">
+                                    <div class="col-sm-12 text-center pb-2"><h4 class="">@note.Title</h4></div>
+                                    <div class="col-sm-12 text-center pb-2"><p>@note.Text</p></div>
+                                    <div class="col-sm-6 text-center pb-2 fst-italic"><a asp-page="/Categories/Index">@note.Category.Title</a></div>
+                                    <div class="col-sm-6 text-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle pt-0" data-toggle="dropdown"><span class="caret"></span></button>
+                                            <ul class="dropdown-menu p-0 m-0" role="menu">
+                                                <li class=""><button asp-page-handler="Delete" asp-route-id="@note.Id" onclick="return confirm('Are you sure?')" class="btn btn-link">Delete</button></li>
+                                                <li><a asp-page="Edit" asp-route-id="@note.Id" class="btn btn-link">Edit</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>No notes available</p>
+            }
+        </form>
+    </div>
+</div>
+

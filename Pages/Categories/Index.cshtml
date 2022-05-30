@@ -1,0 +1,48 @@
+﻿@page
+@model Notebook.Pages.Categories.IndexModel
+@{
+}
+
+<div class="container row">
+    <div class="col-10">
+        <h2>Categories</h2>
+    </div>
+    <div class="col-2">
+        <a asp-page="Create" class="btn btn-outline-primary">Create category</a>
+    </div>
+
+    <div class="col-12 p-2 mt-2">
+        <form method="post">
+            @if (Model.Categories.Count > 0)
+            {
+                <div class="card-columns">
+
+                    @foreach (var category in Model.Categories)
+                    {
+                        <div class="card">
+                            <div class="card-body well-lg border-0">
+                                <div class="row row-cols-3">
+                                    <div class="col-sm-12 text-center pb-2"><a class="card-title" asp-page="/Notes/Index" asp-route-id="@category.Id">@category.Title</a></div>
+                                    <div class="col-sm-6 text-center"><a>Notes: @category.Notes.Count()</a></div>
+                                    <div class="col-sm-6 text-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle pt-0" data-toggle="dropdown"><span class="caret"></span></button>
+                                            <ul class="dropdown-menu p-0 m-0" role="menu">
+                                                <li class=""><button asp-page-handler="Delete" asp-route-id="@category.Id" onclick="return confirm('Are you sure?')" class="btn btn-link">Delete</button></li>
+                                                <li><a asp-page="Edit" asp-route-id="@category.Id" class="btn btn-link">Edit</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>No categories available</p>
+            }
+        </form>
+    </div>
+</div>
